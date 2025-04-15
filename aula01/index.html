@@ -6,7 +6,7 @@
     <title>Curso Vue</title>
 
     <!-- STYLE -->
-    <link rel="stylesheet" href=".assets/styles.css">
+    <link rel="stylesheet" href="./assets/styles.css">
 
     <!-- VUE CDN-->
     <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
@@ -23,10 +23,10 @@
                      <img :src="image" alt="img_product">
                 </div>
                 <div class="product-info">
-                    <h1>{{ product_title}}</h1>
-                    <p v-if="inStock > 10 ">In Stock </p>
-                    <p v-else-if="inStock < 10 && inStock >1">Almost of out</p>
-                    <p v-else> Out of Stock</p>
+                    <h1>{{ product_title }}</h1>
+                    <p v-if="inStock > 10">In Stock</p>
+                    <p v-else-if="inStock <= 10 && inStock > 1">Almost out</p>
+                    <p v-else>Out of Stock</p>
                     <ul>
                       <li v-for="detail in details">
                         {{ detail }}
@@ -35,10 +35,16 @@
                     <div 
                     v-for="variant in variants" 
                     :key="variant.id"
-                    v-on:mouseover="changeImage(variant.image)">
-                      {{ variant.color}}
+                    @mouseover="changeImage(variant.image)"
+                    class="color-circle"
+                    :style="{ backgroundColor: variant.color }"
+                    style="{ background-color: variant.color }">
                     </div>
-                    <button class="button" v-on:click="addToCart">
+                    <button 
+                    class="button" 
+                    :class="{disabledButton : inStock < 1}"
+                    @click="addToCart" 
+                    :disabled="inStock < 1">
                       Add to Cart
                     </button>
                 </div>
@@ -47,35 +53,37 @@
     </div>
 
     <script>
-        const { createApp, ref} = Vue
+        const { createApp, ref } = Vue;
 
         createApp({
             setup() {
 
               const cart = ref(0);
               const addToCart = () => {
-                cart.value +=1
-              }
+                cart.value += 1;
+              };
 
               const image = ref("./assets/images/t-shirt-blue.png");
+
               const changeImage = (variantImage) => {
-                image.value = variantImage
-              }
-              
-                return {
-                    product_title: ref('T-shirt'),
-                    image: ref("./assets/images/t-shirt-blue.png"),
-                    inStock: ref(1),
-                    details: ['50% Cotton', '30% Polyester', '20% wool'],
-                    variants: [
-                      {id: 1, color: 'blue', image: "./assets/images/t-shirt-blue.png"}, 
-                      {id:2, color: 'green', image: "./assets/images/t-shirt-green.png"}],
-                    cart,
-                    addToCart,
-                    changeImage
-                }
+                image.value = variantImage;
+              };
+
+              return {
+                  product_title: ref('T-shirt'),
+                  image,
+                  inStock: ref(1),
+                  details: ['50% Cotton', '30% Polyester', '20% Wool'],
+                  variants: [
+                    { id: 1, color: 'blue', image: "./assets/images/t-shirt-blue.png" },
+                    { id: 2, color: 'green', image: "./assets/images/t-shirt-green.png" }
+                  ],
+                  cart,
+                  addToCart,
+                  changeImage
+              };
             }
-        }).mount('#app')
+        }).mount('#app');
     </script>
 
 </body>
