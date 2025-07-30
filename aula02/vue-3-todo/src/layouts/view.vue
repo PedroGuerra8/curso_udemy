@@ -30,7 +30,7 @@
               <v-icon :icon="item.icon"></v-icon>
             </template>
         
-            <v-list-item-title :text-Content="item.text"></v-list-item-title>
+            <v-list-item-title :textContent="item.text"></v-list-item-title>
           </v-list-item>
         </router-link>
         </v-list>
