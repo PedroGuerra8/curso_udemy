@@ -48,7 +48,7 @@
  
 <script setup>
 import { ref } from 'vue';
-import DialogTaskFields from './dialogs/DialogDelete.vue';
+import DialogTaskFields from './dialogs/DialogTaskFields.vue';
 import DialogDelete from './dialogs/DialogDelete.vue';
 import { useTaskStore } from '@/stores/task';
  
